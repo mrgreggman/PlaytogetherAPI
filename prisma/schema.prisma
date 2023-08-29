@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  message String?
+  image String?
+  postpublish DateTime?
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  displayname String
+  avatar String
+  bio String?
+  favegames String?
+}
+
+model Game {
+  id Int @id @default(autoincrement())
+  gamename String
+  splashart String
+}
+
+model Credential {
+  id Int @id @default(autoincrement())
+  username String
+  email String
+  password String
+  role Role @default(client)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+@@map("credential")
+}
+
+
+enum Role {
+  client
+  admin
+  root
+}
